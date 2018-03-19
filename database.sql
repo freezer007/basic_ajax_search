@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2018 at 02:44 PM
+-- Generation Time: Mar 19, 2018 at 12:47 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -41,16 +41,6 @@ CREATE TABLE `document` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `document`
---
-
-INSERT INTO `document` (`id`, `name`, `author`, `subject`, `cdate`, `img`, `url`) VALUES
-(9, '123', 'milan', 'new', '2018-03-18', 'abort', 'resume.docx'),
-(10, 'aas', 'asd', 'asd', '2018-03-18', 'abort', 'Resume2.docx'),
-(11, 'new', 'file', 'asdf', '2018-03-18', 'abort', 'coed.pdf'),
-(12, 'sadf', 'sdf', 'sdf', '2018-03-18', 'abort', 'milangiri_gauswami_u15co012.pdf');
-
---
 -- Indexes for dumped tables
 --
 
@@ -68,7 +58,7 @@ ALTER TABLE `document`
 -- AUTO_INCREMENT for table `document`
 --
 ALTER TABLE `document`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
