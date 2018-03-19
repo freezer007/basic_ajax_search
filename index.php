@@ -2,7 +2,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style type="text/css">
-	/* FontAwesome for working BootSnippet :> */
+    /* FontAwesome for working BootSnippet :> */
 
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 #team {
@@ -171,113 +171,76 @@ section .section-title {
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg" id="searcht" placeholder="Search" />
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-light">Advance seach</button>
+                        <button type="button" class="btn btn-light" id="advancebtn">Advance seach</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <a href="upload/"><button type="button" class="btn btn-light">Upload</button></a>
                     </span>
                 </div>
             </div>
+            <div id="advanceb">
+                <input type="text" class="form-control input-lg" id="aauthor" placeholder="Author" value=""/>
+                <input type="text" class="form-control input-lg" id="asubject" placeholder="Subject" value=""/>
+            </div>
         <script>
+            var page=1;
+            $('#advanceb').hide();
+            $('#advancebtn').click(function(){
+                $('#advanceb').toggle();
+            });
+            $(function() {
+              $("#searcht").focus();
+            });
             $(document).ready(function() {
+                load_data(1); 
                 $('#searcht').keyup(function(){
-                    var query = $(this).val();
-                    if(query != '')
-                    {
-                     $.ajax({
+                    load_data(1);
+                    page=1;
+                });
+                $('#aauthor').keyup(function(){
+                    load_data(1);
+                    page=1;
+                });
+                $('#asubject').keyup(function(){
+                    load_data(1);
+                    page=1;
+                });
+                function load_data(page){
+                    var query = $('#searcht').val();
+                    var aauthor = $('#aauthor').val();
+                    var asubject = $('#asubject').val();
+                    $.ajax({
                             url:"sajax.php",
                             method:"GET",
-                            data:{query:query},
+                            data:{query:query,auth:aauthor,sub:asubject,page:page},
                             success:function(data)
                             {
                                 $('#topr').html(data);
                             }
-                        });
-                    }
-                    else
-                    {
-                        location.reload();
-                    }
+                    });
+                }
+                $(document).on('click', '.pageitem', function(){  
+                       var itm = $(this).attr("id");  
+                       if(itm == 1 && page >1){
+                        page = page-1;
+                       }
+                       if(itm == 2){
+                        page = page+1;
+                       }
+                       load_data(page);  
                 });
             });
+
         </script>
         <div class="row" id="topr">
 
-            <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/photo_1.jpg" alt="card image"></p>
-                                    <h4 class="card-title">Upload Docs</h4>
-                                    <p class="card-text">This is a card For upload file.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <a href="upload/">
-                                    <h4 class="card-title">Upload</h4>
-                                    <p><img class=" img-fluid" src="images/photo_1.jpg" alt="card image"></p>
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ./Team member -->
-            <?php 
-                $servername = "localhost";
-                $username = "root";
-                $password = "root";
-                $dbname = "itas";
-
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-                $query = "SELECT * FROM document";
-                $result = $conn->query($query) or die($conn->error);
-                if($result->num_rows > 0){
-                while ($row = $result->fetch_assoc()) {
-            ?>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                    <div class="mainflip">
-                        <div class="frontside">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/google-docs.png" alt="card image"></p>
-                                    <h4 class="card-title"><?php echo $row["name"];?></h4>
-                                    <p class="card-text"><?php echo $row["url"];?></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="backside">
-                            <div class="card">
-                                <div class="card-body text-center mt-4">
-                                    <a href="docs/<?php echo $row["url"];?>">
-                                        <h4 class="card-title">Name:-<?php echo $row["name"];?></h4>
-                                        <h4 class="card-title">Author:-<?php echo $row["author"];?></h4>
-                                        <h4 class="card-title">Subject:-<?php echo $row["subject"];?></h4>
-                                        <h4 class="card-title">Date:-<?php echo $row["cdate"];?></h4>
-                                        <h5>Click To download</h5>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-                }}
-                $conn->close();
-            ?> 
-            <!-- Team member -->
         </div>
     </div>
+    
 </section>
 <!-- Team -->
+<ul class="pagination" style="margin: auto;width:30%; ">
+      <li class="pageitem" id="1"><button type="button" class="btn btn-success">previous</button></li>
+
+      <li class="pageitem" id="2"><button type="button" class="btn btn-success">next</button></li>
+</ul>

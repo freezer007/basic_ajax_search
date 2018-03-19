@@ -41,9 +41,13 @@ if (file_exists($target_file)) {
 }
 // Allow certain file formats
 if($imageFileType != "pdf" && $imageFileType != "doc" && $imageFileType != "docx"
-&& $imageFileType != "ppt" ) {
+&& $imageFileType != "ppt" && $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
     echo "Sorry, unsupported file format.";
     $uploadOk = 0;
+}
+$type = "images/google-docs.png";
+if( $imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg") {
+    $type = "docs/".$_FILES["fileToUpload"]["name"]."";
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
@@ -54,7 +58,7 @@ else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
         $sql = "INSERT INTO document (name, author, subject ,cdate ,img ,url )
-        VALUES ('".$user."','".$email."','".$password."','".date("d/m/y")."','abort','".$_FILES["fileToUpload"]["name"]."')";
+        VALUES ('".$user."','".$email."','".$password."','".date("d/m/y")."','".$type."','".$_FILES["fileToUpload"]["name"]."')";
 		if ($conn->query($sql) === TRUE) {
 		    echo "New record created successfully";
 		    header('Location: ../');
